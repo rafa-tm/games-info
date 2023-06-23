@@ -50,6 +50,6 @@ export default function Button({ type, size, onClick, children }) {
 Button.propTypes = {
   type: PropTypes.string.isRequired,
   size: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   children: PropTypes.any,
 };
