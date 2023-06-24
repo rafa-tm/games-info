@@ -11,6 +11,8 @@ export default function Button({ type, size, onClick, children }) {
         return "px-6 py-4 text-lg w-fit";
       case "full":
         return "w-full py-3 text-md";
+      case "half":
+        return "w-1/2 py-3 text-md";
       default:
         return "px-4 py-2 text-md";
     }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import logotipo from "../assets/infoGamesLogo.svg";
 import Button from "../components/Button";
 
-import { MdError } from "react-icons/md";
+import { MdError, MdFilterList } from "react-icons/md";
 import Spinner from "../components/Spinner";
 import GameCard from "../components/GameCard";
 
@@ -14,6 +14,7 @@ export default function Home() {
   const [listGenres, setListGenres] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -109,76 +110,94 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-zinc-800 py-24 md:py-32">
-      <header className="fixed top-0 z-50 flex w-full justify-center bg-zinc-900 px-12 py-6 drop-shadow-xl">
+      <header className="fixed top-0 z-50 flex w-full justify-center gap-12 bg-zinc-900 px-12 py-6 drop-shadow-xl">
         <img
           src={logotipo}
           alt="Logotipo InfoGames"
-          className="w-1/3 max-w-[16rem]"
+          className="w-1/3 min-w-[10rem] max-w-[16rem]"
         />
+
+        <div className="sm:hidden">
+          <Button
+            type="primary"
+            size="small"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <MdFilterList size={24} className="text-slate-50" />
+          </Button>
+        </div>
       </header>
 
-      <main className="flex w-full flex-col items-center justify-center px-12 py-4">
-        <div className="mb-12 flex w-[95%] flex-col items-center justify-center gap-8 md:flex-row">
-          <div className="flex w-full flex-col items-center justify-center gap-4 md:w-1/2 xl:flex-row">
-            <label
-              htmlFor="filtroNome"
-              className="text-center font-medium text-slate-50"
-            >
-              Buscar pelo titulo:
-            </label>
+      <main className="flex w-full flex-col items-center justify-center px-8 py-4 md:px-12">
+        {/* Filtros */}
 
-            <input
-              className="w-full max-w-[28rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
-              type="text"
-              name="filtroNome"
-              id="filtroNome"
-              value={filtroNome}
-              onChange={(e) => setFiltroNome(e.target.value)}
-            />
-            <Button
-              type="primary"
-              size="medium"
-              onClick={() => filterGamesByTittle(filtroNome.trim())}
-            >
-              {" "}
-              Buscar{" "}
-            </Button>
+        {showFilters && (
+          <div className="mb-12 flex w-[95%] flex-col items-center justify-center gap-8 md:flex-row">
+            <div className="flex w-full flex-col items-center justify-end gap-4 md:w-1/2 xl:flex-row">
+              <label
+                htmlFor="filtroNome"
+                className="text-center font-medium text-slate-50"
+              >
+                Buscar pelo titulo:
+              </label>
+
+              <div className="flex w-3/4 justify-center gap-4">
+                <input
+                  className="w-full max-w-[24rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
+                  type="text"
+                  name="filtroNome"
+                  id="filtroNome"
+                  value={filtroNome}
+                  onChange={(e) => setFiltroNome(e.target.value)}
+                />
+                <Button
+                  type="primary"
+                  size="medium"
+                  onClick={() => filterGamesByTittle(filtroNome.trim())}
+                >
+                  {" "}
+                  Buscar{" "}
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex w-full flex-col items-center justify-center gap-4 md:w-1/2 xl:flex-row">
+              <label
+                htmlFor="filtroGenero"
+                className="text-center font-medium text-slate-50"
+              >
+                Filtrar por gênero:
+              </label>
+
+              <div className="flex w-3/4 justify-center gap-4">
+                <select
+                  className="w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
+                  type="text"
+                  name="filtroGenero"
+                  id="filtroGenero"
+                  value={filtroGenero}
+                  onChange={(e) => setFiltroGenero(e.target.value)}
+                >
+                  {listGenres.map((genre) => {
+                    return (
+                      <option key={genre} value={genre}>
+                        {genre}
+                      </option>
+                    );
+                  })}
+                </select>
+                <Button
+                  type="primary"
+                  size="medium"
+                  onClick={() => filterGamesByGenre(filtroGenero)}
+                >
+                  {" "}
+                  Buscar{" "}
+                </Button>
+              </div>
+            </div>
           </div>
-
-          <div className="flex w-full flex-col items-center justify-center gap-4 md:w-1/2 xl:flex-row">
-            <label
-              htmlFor="filtroGenero"
-              className="text-center font-medium text-slate-50"
-            >
-              Filtrar por gênero:
-            </label>
-
-            <select
-              className="w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
-              type="text"
-              name="filtroGenero"
-              id="filtroGenero"
-              value={filtroGenero}
-              onChange={(e) => setFiltroGenero(e.target.value)}
-            >
-              {listGenres.map((genre) => {
-                return (
-                  <option key={genre} value={genre}>
-                    {genre}
-                  </option>
-                );
-              })}
-            </select>
-            <Button
-              type="primary"
-              size="medium"
-              onClick={() => filterGamesByGenre(filtroGenero)}
-            >
-              {" "}
-              Buscar{" "}
-            </Button>
-          </div>
-        </div>
+        )}
 
         {loading ? (
           <div className="m-24 flex w-full items-center justify-center">
@@ -191,7 +210,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid w-[95%] grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-            {filtroNome || filtroGenero
+            {filtroNome !== "" || filtroGenero !== "Nenhum filtro"
               ? filteredGames.map((game) => (
                   <GameCard key={game.id} game={game} />
                 ))
