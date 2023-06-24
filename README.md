@@ -20,9 +20,12 @@ e otimização para produção.
 
 ## Veja plublicado
 
+[Acesse aqui](https://infogames-rafaeltury.netlify.app/)
+
 ![Netlify](https://img.shields.io/netlify/7f764a64-f20d-4c01-9482-038be480536d)
 
 ## Prints
 
 ![Print 1](https://i.imgur.com/MLq0E3d.png)
-![Print 2](https://i.imgur.com/klOK88c.png)
+![Print 2](https://i.imgur.com/ttun7xB.png)
+![Print 3](https://i.imgur.com/DMyWT1p.png)
