@@ -1,5 +1,10 @@
 {
   "name": "games-info",
+  "author": {
+    "name": "Rafael",
+    "email": "rafaelturyminatel@gmail.com"
+  },
+  "description": "A simple app to show games info",
   "private": true,
   "version": "0.0.0",
   "type": "module",

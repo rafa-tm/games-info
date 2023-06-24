@@ -10,7 +10,7 @@ export default function Button({ type, size, onClick, children }) {
       case "large":
         return "px-6 py-4 text-lg w-fit";
       case "full":
-        return "w-full py-2";
+        return "w-full py-3 text-md";
       default:
         return "px-4 py-2 text-md";
     }
@@ -33,7 +33,7 @@ export default function Button({ type, size, onClick, children }) {
   return (
     <button
       className={
-        "rounded font-bold text-white transition duration-300 ease-in-out " +
+        "flex items-center justify-center gap-4 rounded font-bold text-white transition duration-300 ease-in-out" +
         " " +
         buttonColor(type) +
         " " +
