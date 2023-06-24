@@ -141,7 +141,7 @@ export default function Home() {
                 Buscar pelo titulo:
               </label>
 
-              <div className="flex w-3/4 justify-center gap-4">
+              <div className="flex w-5/6 justify-center gap-4 lg:w-1/2">
                 <input
                   className="w-full max-w-[24rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
                   type="text"
@@ -169,7 +169,7 @@ export default function Home() {
                 Filtrar por gênero:
               </label>
 
-              <div className="flex w-3/4 justify-center gap-4">
+              <div className="flex w-5/6 justify-center gap-4 lg:w-1/2">
                 <select
                   className="w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
                   type="text"
