@@ -16,56 +16,58 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setLoading(false);
-      setError("O servidor demorou para responder, tente mais tarde");
-    }, 5000);
+    const fetchData = async () => {
+      setLoading(true);
 
-    async function fetchGames() {
       try {
-        setLoading(true);
-        await fetch(
-          "https://games-test-api-81e9fb0d564a.herokuapp.com/api/data/",
-          {
+        const timeoutPromise = new Promise((resolve, reject) => {
+          setTimeout(() => {
+            reject("O servidor demorou para responder, tente mais tarde.");
+          }, 5000);
+        });
+
+        const response = await Promise.race([
+          fetch("https://games-test-api-81e9fb0d564a.herokuapp.com/api/data/", {
             method: "GET",
             headers: {
-              "dev-email-address": "rafaelturyminatel@gmail.com",
+              "dev-email-address": "email@mail.com",
             },
-          }
-        )
-          .then((response) => {
-            clearTimeout(timeout);
-            if (response.status === 200) {
-              setError("");
-              return response.json();
-            } else if (
-              response.status === 500 ||
-              response.status === 502 ||
-              response.status === 503 ||
-              response.status === 504 ||
-              response.status === 507 ||
-              response.status === 508 ||
-              response.status === 509
-            ) {
-              setError(
-                "O servidor falhou em responder, tente recarregar a página!"
-              );
-            } else {
-              setError(
-                "O servidor não conseguirá responder por agora, tente voltar novamente mais tarde."
-              );
-            }
-          })
-          .then((data) => {
-            setListGames(data);
-            setFilteredGames(data);
-            getListGenres(data);
-          });
+          }),
+          timeoutPromise,
+        ]);
+
+        console.log(response);
+        const data = await response.json();
+
+        if (response.status === 200) {
+          setListGames(data);
+          setFilteredGames(data);
+          getListGenres(data);
+        } else if (
+          response.status === 500 ||
+          response.status === 502 ||
+          response.status === 503 ||
+          response.status === 504 ||
+          response.status === 507 ||
+          response.status === 508 ||
+          response.status === 509
+        ) {
+          setError(
+            "O servidor falhou em responder, tente recarregar a página!"
+          );
+        } else {
+          setError(
+            "O servidor não conseguirá responder por agora, tente voltar novamente mais tarde."
+          );
+        }
+      } catch (error) {
+        setError("O servidor demorou para responder, tente mais tarde.");
       } finally {
         setLoading(false);
       }
-    }
-    fetchGames();
+    };
+
+    fetchData();
   }, []);
 
   function getListGenres(data) {
@@ -85,7 +87,6 @@ export default function Home() {
   }
 
   function filterGamesByTittle(tittle) {
-    console.log(tittle);
     if (tittle === "") {
       setFilteredGames(listGames);
       return;
@@ -121,7 +122,7 @@ export default function Home() {
         {/* Filtros */}
 
         <div className="mb-12 flex w-[95%] flex-col items-center justify-center gap-8 md:flex-row">
-          <div className="flex w-full flex-col items-center justify-end gap-4 md:w-1/2 xl:flex-row">
+          <div className="flex w-full flex-col items-center justify-center gap-4 md:w-1/2 xl:flex-row">
             <label
               htmlFor="filtroNome"
               className="text-center font-medium text-slate-50"

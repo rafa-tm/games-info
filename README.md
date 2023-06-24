@@ -18,7 +18,7 @@ e otimização para produção.
 - ✅ Incluir um campo de busca, que permite localizar jogos pelo título, com busca case insensitive
 - ✅ Uma vez que tenha os dados em mãos, veja quais `genre` foram retornados e permita ao usuário selecionar um deles, e então filtre para exibir apenas jogos do gênero selecionado.
 
-## Veja plublicado
+## Veja publicado
 
 [Acesse aqui](https://infogames-rafaeltury.netlify.app/)
 
@@ -27,5 +27,3 @@ e otimização para produção.
 ## Prints
 
 ![Print 1](https://i.imgur.com/MLq0E3d.png)
-![Print 2](https://i.imgur.com/ttun7xB.png)
-![Print 3](https://i.imgur.com/DMyWT1p.png)
