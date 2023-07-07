@@ -34,15 +34,11 @@ export default function Button({ type, size, onClick, children }) {
   }
   return (
     <button
-      className={
-        "flex items-center justify-center gap-4 rounded font-bold text-white transition duration-300 ease-in-out" +
-        " " +
-        buttonColor(type) +
-        " " +
-        buttonSize(size)
-      }
+      className={`flex items-center justify-center gap-4 rounded font-bold text-white transition duration-300 ease-in-out ${buttonColor(
+        type
+      )} ${buttonSize(size)}`}
       onClick={onClick}
-      aria-label={"Botão " + children}
+      aria-label={`Botão ${children}`}
     >
       {children}
     </button>
