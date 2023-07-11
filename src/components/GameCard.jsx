@@ -11,7 +11,7 @@ export default function GameCard({ game }) {
   //const { isAuthenticated, currentUser } = useAuth();
 
   return (
-    <div className="flex flex-col items-center overflow-hidden rounded-lg bg-zinc-700 shadow-2xl shadow-zinc-950 transition-all hover:scale-105">
+    <div className="center flex flex-col items-center overflow-hidden rounded-lg bg-zinc-700 shadow-2xl shadow-zinc-950 transition-all hover:scale-105">
       <img src={game.thumbnail} alt={game.title} className="w-full" />
 
       <div className="mx-8 my-4 flex h-full flex-col justify-between gap-8">
@@ -22,9 +22,10 @@ export default function GameCard({ game }) {
           </div>
 
           <div className="flex flex-col gap-2 text-lg text-slate-100">
-            <h2 className="w-full text-xl font-bold">{game.title}</h2>
-            <div className="grid grid-cols-2 justify-center gap-2">
-              <p>{game.genre}</p>
+            <h2 className="w-full text-2xl font-bold">{game.title}</h2>
+            <div className="flex items-center justify-between text-sm">
+              <p className="">Gênero:</p>
+              <p className="rounded-full bg-zinc-950 px-3 py-1">{game.genre}</p>
             </div>
             <div className="mt-2 w-full">
               <p className="text-justify text-zinc-100">

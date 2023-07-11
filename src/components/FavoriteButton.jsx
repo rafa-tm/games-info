@@ -21,7 +21,7 @@ export default function FavoriteButton({ gameId, isFavorite }) {
     setAnimateHeart(true);
     setTimeout(() => {
       setAnimateHeart(false);
-    }, 1500);
+    }, 1800);
   };
 
   const updateFavorite = () => {
@@ -48,7 +48,7 @@ export default function FavoriteButton({ gameId, isFavorite }) {
   if (isAuthenticated) {
     return (
       <button
-        className={`flex w-fit items-center justify-center gap-2 rounded-lg px-3 py-2 transition-all duration-500 ease-in-out 
+        className={`flex w-fit items-center justify-center gap-2 rounded-full px-3 py-2 transition-all duration-500 ease-in-out 
         ${
           favorite
             ? "bg-zinc-800 hover:bg-red-950"
@@ -70,7 +70,7 @@ export default function FavoriteButton({ gameId, isFavorite }) {
     return (
       <Link
         to={"/auth/"}
-        className={`flex w-fit items-center justify-center gap-2 rounded-lg bg-zinc-600 px-3 py-2  transition-all duration-500 ease-in-out hover:bg-zinc-300`}
+        className={`flex w-fit items-center justify-center gap-2 rounded-full bg-zinc-600 px-3 py-2  transition-all duration-500 ease-in-out hover:bg-zinc-300`}
       >
         <MdFavorite size="2em" className="text-slate-500" />
       </Link>

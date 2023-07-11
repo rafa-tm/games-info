@@ -14,11 +14,12 @@ export default function Auth() {
           />
           <div className="flex w-full max-w-md flex-col items-center gap-12">
             <h3 className="text-2xl font-bold underline decoration-red-800">
-              Faça seu login ou crie uma conta para continuar!
+              InfoGames
             </h3>
+            <h3 className="text-2xl font-bold">Bem-vindo ao InfoGames!</h3>
             <p className="w-full text-xl">
-              Explore novos jogos, avalie os jogos que você já jogou e salve
-              seus favoritos e muito mais!
+              Explore novos jogos, avalie os jogos que você já jogou, salve seus
+              favoritos e muito mais!
             </p>
             <div className="flex w-full justify-center gap-12">
               <Button to={"login"} type="primary" size="large">

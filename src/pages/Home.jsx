@@ -7,7 +7,12 @@ import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import GameCard from "../components/GameCard";
 
-import { MdClear, MdExitToApp, MdFavoriteBorder } from "react-icons/md";
+import {
+  MdClear,
+  MdExitToApp,
+  MdFavorite,
+  MdFavoriteBorder,
+} from "react-icons/md";
 
 import { FaSortAmountUp, FaSort, FaSortAmountUpAlt } from "react-icons/fa";
 
@@ -93,7 +98,7 @@ export default function Home() {
       <main className=" flex min-h-full w-full flex-col items-center justify-around">
         {/* Filtros */}
 
-        <div className="w-full py-24 ">
+        <div className="w-full px-32 py-24">
           <div className="flex w-full flex-col items-center justify-center gap-8 text-zinc-100 md:flex-wrap lg:flex-row">
             <h3 className="text-lg font-medium">Filtros: </h3>
             <input
@@ -152,7 +157,11 @@ export default function Home() {
                   size="medium"
                   onClick={() => setFavoritedFilter(!favoritedFilter)}
                 >
-                  <MdFavoriteBorder size={24} />
+                  {favoritedFilter ? (
+                    <MdFavorite size={24} />
+                  ) : (
+                    <MdFavoriteBorder size={24} />
+                  )}
                   Meus favoritos
                 </Button>
               </>
@@ -197,7 +206,7 @@ export default function Home() {
           )}
 
           {!loading && !error && filteredData.length > 0 && (
-            <div className="grid w-[95%] grid-cols-1 gap-x-14 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid w-[95%] grid-cols-1 gap-x-14 gap-y-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 xl:w-[80%] xl:gap-x-14">
               {filteredData?.map((game) => {
                 return <GameCard key={game.id} game={game} />;
               })}

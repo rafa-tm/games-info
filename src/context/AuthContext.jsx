@@ -32,6 +32,12 @@ export function AuthProvider({ children }) {
     verifyIsAuthenticated();
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAuthError("");
+    }, 5000);
+  }, [authError]);
+
   const createAccount = async (email, password) => {
     try {
       if (!email || !password) {
@@ -57,7 +63,20 @@ export function AuthProvider({ children }) {
       }
     } catch (error) {
       console.log(error);
-      setAuthError(error.message);
+
+      if (error.code === "auth/email-already-in-use") {
+        setAuthError("E-mail já cadastrado, tente novamente.");
+        return;
+      } else if (error.code === "auth/weak-password") {
+        setAuthError("A senha deve ter no mínimo 6 caracteres.");
+        return;
+      } else if (error.code === "auth/invalid-email") {
+        setAuthError("E-mail inválido, tente novamente.");
+        return;
+      } else {
+        setAuthError(error.message);
+        return;
+      }
     }
   };
 
@@ -76,15 +95,19 @@ export function AuthProvider({ children }) {
       if (error.code === "auth/wrong-password") {
         setAuthError("Senha incorreta, tente novamente.");
         return;
-      }
-
-      if (error.code === "auth/user-not-found") {
+      } else if (error.code === "auth/invalid-email") {
+        setAuthError("E-mail inválido, tente novamente.");
+        return;
+      } else if (error.code === "auth/user-disabled") {
+        setAuthError("Usuário desabilitado, tente novamente.");
+        return;
+      } else if (error.code === "auth/user-not-found") {
         setAuthError("Usuário não encontrado, tente novamente ou cadastre-se.");
         return;
+      } else {
+        setAuthError(error.message);
+        return;
       }
-
-      setAuthError(error.message);
-      return;
     }
     setAuthError("");
   };

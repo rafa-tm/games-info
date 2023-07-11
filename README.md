@@ -30,7 +30,7 @@ Total: 12/12
 - ✅ Ter uma forma de ordenar por avaliação, vendo os melhores (ou piores) primeiro, clicando novamente para inverter a ordem
 - ✅ Ao carregar a interface, deixar o ❤️ vermelho para os itens favoritos e as ⭐️ amarelas nos itens avaliados
 - ✅ Ao acessar sem estar autenticado, os ícones 🩶 e ★ deverão estar visíveis, mas ao clicar irá solicitar a autenticação
-- ✅ Ao obter os jogos da API, já apresentar, sem deixar o loading enquanto se obtém os dados do firebase, até porque, o firebase devolverá os dados mais rapidamente
+- ✅ Ao obter os jogos da API e os dados do firebase, apresentar. Manter o loading para os jogos. Não precisa de loading enquanto espera o firebase, até porque o firebase devolverá os dados mais rapidamente e pode ser complicado “esperar o firebase” se estiver “escutando o firebase”.
 - ✅ A autenticação deve acontecer na rota `/auth/` usando o provedor “E-mail/senha” do firebase, onde o usuário poderá criar uma conta ou acessar a conta já existente (se mantendo apenas nesta rota)
 - ✅ Escolher um item para aplicar uma animação com CSS, pode ser ao favoritar, ou avaliar, ou quando os itens surgirem
 - ✅ Publicar seu projeto online para testarmos (na mesma url de antes)

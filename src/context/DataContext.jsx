@@ -59,7 +59,6 @@ export function DataProvider({ children }) {
 
     Promise.race([fetchAPI, timeoutPromise])
       .then(async (data) => {
-        console.log(data);
         if (isAuthenticated) {
           const docRef = doc(db, "users", idCurrentUser);
           const userSnapshot = await getDoc(docRef);
@@ -100,7 +99,6 @@ export function DataProvider({ children }) {
           });
 
           setListGames(listGamesEvaluated);
-          console.log(listGames);
         } else {
           setListGames(data);
         }

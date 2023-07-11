@@ -50,7 +50,10 @@ export default function Rating({ gameId, initialRating }) {
     );
   } else {
     return (
-      <Link to={"/auth/"} className="flex items-center gap-2">
+      <Link
+        to={"/auth/"}
+        className="flex items-center gap-2 rounded-lg bg-zinc-900 px-2 py-1"
+      >
         {[1, 2, 3, 4].map((star) => {
           return (
             <MdStar
