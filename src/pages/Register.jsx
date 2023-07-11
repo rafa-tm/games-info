@@ -3,19 +3,23 @@ import useAuth from "../hooks/useAuth";
 import Button from "../components/Button";
 import { MdError } from "react-icons/md";
 
-export default function Login() {
-  const { loginWithEmailAndPassword, authError, setAuthError } = useAuth();
+export default function Register() {
+  const { createAccount, loginWithEmailAndPassword, authError, setAuthError } =
+    useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (event) => {
+  const handleCreateAccount = async (event) => {
     event.preventDefault();
     setAuthError("");
     try {
-      await loginWithEmailAndPassword(email, password, "/");
+      await createAccount(email, password);
     } catch (error) {
       console.log(error);
+    } finally {
+      setEmail("");
+      setPassword("");
     }
   };
 
@@ -24,14 +28,14 @@ export default function Login() {
       <div className="flex min-w-[40%] flex-col items-center justify-center gap-8 rounded-lg bg-zinc-900 px-8 py-24 drop-shadow-xl md:px-32">
         <div className="flex w-full max-w-sm flex-col gap-12 text-center">
           <h3 className="text-2xl font-bold text-slate-50 ">
-            Faça seu login agora mesmo!
+            Crie uma conta agora mesmo!
           </h3>
         </div>
 
         <div className="flex w-full flex-col gap-6 overflow-hidden rounded-lg ">
           <form
             method="POST"
-            onSubmit={handleLogin}
+            onSubmit={handleCreateAccount}
             className="flex w-full flex-col items-center justify-center gap-8 px-6"
           >
             <div className="flex w-full flex-col gap-2">
@@ -83,14 +87,14 @@ export default function Login() {
             <div className="flex gap-16">
               <div className="flex w-full justify-center">
                 <Button type="primary" buttonType="submit" size="medium">
-                  Entrar
+                  Criar conta
                 </Button>
               </div>
             </div>
           </form>
         </div>
 
-        <Button to={"/"} type="text" size="full">
+        <Button to={"/auth/"} type="text" size="full">
           Voltar
         </Button>
       </div>

@@ -20,16 +20,16 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("Usuário autenticado.");
-        setIsAuthenticated(true);
-      } else {
-        console.log("Usuário não autenticado.");
-        setIsAuthenticated(false);
-      }
-    });
-    setAuthError("");
+    const verifyIsAuthenticated = () => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      });
+    };
+    verifyIsAuthenticated();
   }, []);
 
   const createAccount = async (email, password) => {
@@ -109,6 +109,7 @@ export function AuthProvider({ children }) {
         createAccount,
         loginWithEmailAndPassword,
         currentUser: auth?.currentUser,
+        idCurrentUser: auth?.currentUser?.uid,
         isAuthenticated,
         logOut,
         authError,

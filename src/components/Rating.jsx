@@ -5,15 +5,16 @@ import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../services/firebase";
+import useFetchData from "../hooks/useFetchData";
 
 export default function Rating({ gameId, initialRating }) {
   const { isAuthenticated, currentUser } = useAuth();
+  const { updateRating } = useFetchData();
   const [rating, setRating] = useState(initialRating);
 
   useEffect(() => {
-    if (isAuthenticated) setRating(initialRating);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, initialRating]);
+    setRating(initialRating);
+  }, [initialRating, isAuthenticated]);
 
   const handleRating = async (rating) => {
     if (isAuthenticated) {
@@ -34,7 +35,7 @@ export default function Rating({ gameId, initialRating }) {
         await updateDoc(docRef, {
           evaluatedGames: updatedEvaluatedGames,
         });
-
+        updateRating(gameId, rating);
         setRating(rating);
       } catch (error) {
         console.log(error);

@@ -33,6 +33,8 @@ const useFilterData = (data) => {
         filteredData?.sort(sortBy("rating"));
     }
 
+    console.log("filteredData: ");
+    console.log(filteredData);
     return { filteredData, nameFilter, setNameFilter, genderFilter, setGenderFilter, favoritedFilter, setFavoritedFilter, ratingFilter, setRatingFilter };
 };
 

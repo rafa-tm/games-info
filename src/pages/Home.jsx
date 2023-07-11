@@ -7,9 +7,14 @@ import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import GameCard from "../components/GameCard";
 
-import { MdExitToApp, MdFavoriteBorder } from "react-icons/md";
+import { MdClear, MdExitToApp, MdFavoriteBorder } from "react-icons/md";
 
-import { FaSortAmountUp, FaSort, FaSortAmountUpAlt } from "react-icons/fa";
+import {
+  FaSortAmountUp,
+  FaSort,
+  FaSortAmountUpAlt,
+  FaXbox,
+} from "react-icons/fa";
 
 import useAuth from "../hooks/useAuth";
 import useFetchData from "../hooks/useFetchData";
@@ -18,7 +23,7 @@ import ShowError from "../components/ShowError";
 
 export default function Home() {
   const { logOut, isAuthenticated } = useAuth();
-  const { listGames, loading, error } = useFetchData();
+  const { fetchData, listGames, loading, error } = useFetchData();
   const {
     filteredData,
     ratingFilter,
@@ -57,8 +62,16 @@ export default function Home() {
   }
 
   useEffect(() => {
+    fetchData();
     getListGenres(listGames);
-  }, [listGames]);
+  }, [isAuthenticated]);
+
+  const clearFilters = () => {
+    setNameFilter("");
+    setGenderFilter("");
+    setRatingFilter("Nenhum filtro");
+    setFavoritedFilter(false);
+  };
 
   return (
     <div className="min-h-screen bg-zinc-800 pb-24">
@@ -66,7 +79,7 @@ export default function Home() {
         <img
           src={logotipo}
           alt="Logotipo InfoGames"
-          className="w-1/3 min-w-[10rem] max-w-[16rem]"
+          className="w-1/3 min-w-[8rem] max-w-[16rem]"
         />
 
         {isAuthenticated ? (
@@ -88,7 +101,7 @@ export default function Home() {
           <div className="flex w-full flex-col items-center justify-center gap-8 text-zinc-100 md:flex-wrap lg:flex-row">
             <h3 className="text-lg font-medium">Filtros: </h3>
             <input
-              className="w-full max-w-[24rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal "
+              className="w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal md:max-w-[24rem]"
               type="text"
               name="filtroNome"
               id="filtroNome"
@@ -148,6 +161,20 @@ export default function Home() {
                 </Button>
               </>
             ) : null}
+
+            {(nameFilter !== "" ||
+              genderFilter !== "" ||
+              ratingFilter !== "Nenhum filtro" ||
+              favoritedFilter) && (
+              <Button
+                type="secondary"
+                size="medium"
+                onClick={() => clearFilters()}
+              >
+                <MdClear size={24} />
+                Limpar filtros
+              </Button>
+            )}
           </div>
         </div>
 

@@ -33,9 +33,9 @@ Total: 12/12
 - ✅ Ao obter os jogos da API, já apresentar, sem deixar o loading enquanto se obtém os dados do firebase, até porque, o firebase devolverá os dados mais rapidamente
 - ✅ A autenticação deve acontecer na rota `/auth/` usando o provedor “E-mail/senha” do firebase, onde o usuário poderá criar uma conta ou acessar a conta já existente (se mantendo apenas nesta rota)
 - ✅ Escolher um item para aplicar uma animação com CSS, pode ser ao favoritar, ou avaliar, ou quando os itens surgirem
-- ❌ Publicar seu projeto online para testarmos (na mesma url de antes)
+- ✅ Publicar seu projeto online para testarmos (na mesma url de antes)
 
-Total: 9/12
+Total: 12/12
 Total
 
 ## Veja publicado

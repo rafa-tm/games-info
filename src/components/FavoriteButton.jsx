@@ -19,26 +19,8 @@ export default function FavoriteButton({ gameId, isFavorite }) {
   const [animateHeart, setAnimateHeart] = useState(false);
 
   useEffect(() => {
-    // if (isAuthenticated) {
-    //   const getFavorite = async () => {
-    //     try {
-    //       const docRef = doc(db, "users", currentUser?.uid);
-    //       const userSnapshot = await getDoc(docRef);
-    //       const userData = userSnapshot.data();
-
-    //       const isFavorite = userData?.favGames.includes(gameId);
-
-    //       setFavorite(isFavorite);
-    //     } catch (error) {
-    //       console.log(error);
-    //     }
-    //   };
-
-    //   getFavorite();
-    // }
-    if (isAuthenticated) setFavorite(isFavorite);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, isFavorite]);
+    setFavorite(isFavorite);
+  }, [isFavorite]);
 
   const triggerAnimation = () => {
     setAnimateHeart(true);
