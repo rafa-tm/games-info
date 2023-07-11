@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { connectAuthEmulator, getAuth } from "firebase/auth";
+import {
+    browserSessionPersistence,
+    //connectAuthEmulator, 
+    getAuth,
+    setPersistence
+} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
 
 // Firebase configuration
 const firebaseConfig = {
@@ -14,7 +21,8 @@ const firebaseConfig = {
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
 
-const auth = getAuth(firebaseApp);
-connectAuthEmulator(auth, "http://localhost:9099");
+export const auth = getAuth(firebaseApp);
+//connectAuthEmulator(auth, "http://localhost:9099");
+setPersistence(auth, browserSessionPersistence);
 
-export default auth;
+export const db = getFirestore(firebaseApp);

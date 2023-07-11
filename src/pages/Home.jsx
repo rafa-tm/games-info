@@ -1,209 +1,186 @@
 import { useEffect, useState } from "react";
-import logotipo from "../assets/infoGamesLogo.svg";
-import Button from "../components/Button";
 
-import { MdError } from "react-icons/md";
+import logotipo from "../assets/infoGamesLogo.svg";
+import noData from "../assets/noData.svg";
+
+import Button from "../components/Button";
 import Spinner from "../components/Spinner";
 import GameCard from "../components/GameCard";
 
+import { MdExitToApp, MdFavoriteBorder } from "react-icons/md";
+
+import { FaSortAmountUp, FaSort, FaSortAmountUpAlt } from "react-icons/fa";
+
+import useAuth from "../hooks/useAuth";
+import useFetchData from "../hooks/useFetchData";
+import useFilterData from "../hooks/useFilterData";
+import ShowError from "../components/ShowError";
+
 export default function Home() {
-  const [filtroNome, setFiltroNome] = useState("");
-  const [filtroGenero, setFiltroGenero] = useState("");
-  const [listGames, setListGames] = useState([]);
-  const [filteredGames, setFilteredGames] = useState([]);
+  const { logOut, isAuthenticated } = useAuth();
+  const { listGames, loading, error } = useFetchData();
+  const {
+    filteredData,
+    ratingFilter,
+    setRatingFilter,
+    nameFilter,
+    setNameFilter,
+    genderFilter,
+    setGenderFilter,
+    favoritedFilter,
+    setFavoritedFilter,
+  } = useFilterData(listGames);
+
   const [listGenres, setListGenres] = useState([]);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-
-      try {
-        const timeoutPromise = new Promise((resolve, reject) => {
-          setTimeout(() => {
-            reject("O servidor demorou para responder, tente mais tarde.");
-          }, 5000);
-        });
-
-        const response = await Promise.race([
-          fetch("https://games-test-api-81e9fb0d564a.herokuapp.com/api/data/", {
-            method: "GET",
-            headers: {
-              "dev-email-address": "email@mail.com",
-            },
-          }),
-          timeoutPromise,
-        ]);
-
-        const data = await response.json();
-
-        if (response.status === 200) {
-          setListGames(data);
-          setFilteredGames(data);
-          getListGenres(data);
-        } else if (
-          response.status === 500 ||
-          response.status === 502 ||
-          response.status === 503 ||
-          response.status === 504 ||
-          response.status === 507 ||
-          response.status === 508 ||
-          response.status === 509
-        ) {
-          setError(
-            "O servidor falhou em responder, tente recarregar a página!"
-          );
-        } else {
-          setError(
-            "O servidor não conseguirá responder por agora, tente voltar novamente mais tarde."
-          );
-        }
-      } catch (error) {
-        setError("O servidor demorou para responder, tente mais tarde.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   function getListGenres(data) {
     const genres = ["Nenhum filtro"];
-
     if (!data) {
       return;
     }
-
     data.map((game) => {
       if (!genres.includes(game.genre)) {
         genres.push(game.genre);
       }
     });
-
     setListGenres(genres);
   }
 
-  function filterGamesByTittle(tittle) {
-    if (tittle === "") {
-      setFilteredGames(listGames);
-      return;
+  function handleRatingFilter() {
+    if (ratingFilter === "Nenhum filtro") {
+      setRatingFilter("crescente");
+    } else if (ratingFilter === "crescente") {
+      setRatingFilter("decrescente");
+    } else {
+      setRatingFilter("Nenhum filtro");
     }
-    const filteredGames = listGames.filter((game) => {
-      return game.title.toLowerCase().includes(tittle.toLowerCase());
-    });
-    setFilteredGames(filteredGames);
   }
 
-  function filterGamesByGenre(genre) {
-    if (genre === "Nenhum filtro") {
-      setFilteredGames(listGames);
-      return;
-    }
-    const filteredGames = listGames.filter((game) => {
-      return game.genre === genre;
-    });
-    setFilteredGames(filteredGames);
-  }
+  useEffect(() => {
+    getListGenres(listGames);
+  }, [listGames]);
 
   return (
-    <div className="min-h-screen bg-zinc-800 py-24 md:py-32">
-      <header className="fixed top-0 z-50 flex w-full justify-center gap-12 bg-zinc-900 px-12 py-6 drop-shadow-xl">
+    <div className="min-h-screen bg-zinc-800 pb-24">
+      <header className=" flex w-full justify-between gap-12 bg-zinc-900 px-12 py-6 drop-shadow-xl">
         <img
           src={logotipo}
           alt="Logotipo InfoGames"
           className="w-1/3 min-w-[10rem] max-w-[16rem]"
         />
+
+        {isAuthenticated ? (
+          <Button type="secondary" size="medium" onClick={() => logOut()}>
+            <MdExitToApp size={24} />
+            Sair
+          </Button>
+        ) : (
+          <Button to={"/auth/"} type="primary" size="medium">
+            Entrar ou cadastrar
+          </Button>
+        )}
       </header>
 
-      <main className="flex w-full flex-col items-center justify-center px-8 py-4 md:px-12">
+      <main className=" flex min-h-full w-full flex-col items-center justify-around">
         {/* Filtros */}
 
-        <div className="mb-12 flex w-[95%] flex-col items-center justify-center gap-8 md:flex-row">
-          <div className="flex w-full flex-col items-center justify-center gap-4 md:w-1/2 xl:flex-row">
-            <label
-              htmlFor="filtroNome"
-              className="text-center font-medium text-slate-50"
+        <div className="w-full py-24 ">
+          <div className="flex w-full flex-col items-center justify-center gap-8 text-zinc-100 md:flex-wrap lg:flex-row">
+            <h3 className="text-lg font-medium">Filtros: </h3>
+            <input
+              className="w-full max-w-[24rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal "
+              type="text"
+              name="filtroNome"
+              id="filtroNome"
+              value={nameFilter}
+              onChange={(e) => setNameFilter(e.target.value)}
+              placeholder="Buscar pelo titulo"
+            />
+            <select
+              className="w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal "
+              type="text"
+              name="filtroGenero"
+              id="filtroGenero"
+              value={genderFilter}
+              onChange={(e) => setGenderFilter(e.target.value)}
             >
-              Buscar pelo titulo:
-            </label>
+              <option value={""} disabled>
+                Filtrar por gênero
+              </option>
+              {listGenres.map((genre) => {
+                return (
+                  <option key={genre} value={genre}>
+                    {genre}
+                  </option>
+                );
+              })}
+            </select>
 
-            <div className="flex w-5/6 justify-center gap-4 lg:w-1/2">
-              <input
-                className="w-full max-w-[24rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
-                type="text"
-                name="filtroNome"
-                id="filtroNome"
-                value={filtroNome}
-                onChange={(e) => setFiltroNome(e.target.value)}
-              />
-              <Button
-                type="primary"
-                size="medium"
-                onClick={() => filterGamesByTittle(filtroNome.trim())}
-              >
-                {" "}
-                Buscar{" "}
-              </Button>
-            </div>
-          </div>
+            {isAuthenticated ? (
+              <>
+                <Button
+                  type="primary"
+                  size="medium"
+                  onClick={() => handleRatingFilter()}
+                >
+                  {ratingFilter === "Nenhum filtro" ? (
+                    <>
+                      <FaSort size={24} /> Ordenar por nota
+                    </>
+                  ) : ratingFilter === "crescente" ? (
+                    <>
+                      <FaSortAmountUpAlt size={24} /> Menor nota
+                    </>
+                  ) : (
+                    <>
+                      <FaSortAmountUp size={24} /> Maior nota
+                    </>
+                  )}
+                </Button>
 
-          <div className="flex w-full flex-col items-center justify-center gap-4 md:w-1/2 xl:flex-row">
-            <label
-              htmlFor="filtroGenero"
-              className="text-center font-medium text-slate-50"
-            >
-              Filtrar por gênero:
-            </label>
-
-            <div className="flex w-5/6 justify-center gap-4 lg:w-1/2">
-              <select
-                className="w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal text-zinc-100"
-                type="text"
-                name="filtroGenero"
-                id="filtroGenero"
-                value={filtroGenero}
-                onChange={(e) => setFiltroGenero(e.target.value)}
-              >
-                {listGenres.map((genre) => {
-                  return (
-                    <option key={genre} value={genre}>
-                      {genre}
-                    </option>
-                  );
-                })}
-              </select>
-              <Button
-                type="primary"
-                size="medium"
-                onClick={() => filterGamesByGenre(filtroGenero)}
-              >
-                {" "}
-                Buscar{" "}
-              </Button>
-            </div>
+                <Button
+                  type="primary"
+                  size="medium"
+                  onClick={() => setFavoritedFilter(!favoritedFilter)}
+                >
+                  <MdFavoriteBorder size={24} />
+                  Meus favoritos
+                </Button>
+              </>
+            ) : null}
           </div>
         </div>
 
-        {loading ? (
-          <div className="m-24 flex w-full items-center justify-center">
-            <Spinner />
-          </div>
-        ) : error ? (
-          <div className="m-24 flex w-3/5 flex-col items-center gap-4 text-center text-2xl font-bold text-slate-50">
-            <MdError size={48} className="text-red-600" />
-            <h1>{error}</h1>
-          </div>
-        ) : (
-          <div className="grid w-[95%] grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-            {filtroNome !== "" || filtroGenero !== "Nenhum filtro"
-              ? filteredGames.map((game) => (
-                  <GameCard key={game.id} game={game} />
-                ))
-              : listGames.map((game) => <GameCard key={game.id} game={game} />)}
-          </div>
-        )}
+        <div className="flex w-full justify-center px-12">
+          {loading ? (
+            <div className="m-24 flex w-full items-center justify-center">
+              <Spinner />
+            </div>
+          ) : null}
+
+          {!loading && error && <ShowError text={error} />}
+
+          {!loading && !error && filteredData.length === 0 && (
+            <div className="flex flex-col items-center justify-center gap-4 self-center text-center text-2xl font-bold text-slate-50">
+              <img
+                src={noData}
+                alt=""
+                width={320}
+                height={320}
+                className="max-w-xs"
+              />
+              <h1>Nenhum jogo encontrado</h1>
+            </div>
+          )}
+
+          {!loading && !error && filteredData.length > 0 && (
+            <div className="grid w-[80%] grid-cols-1 gap-x-14 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+              {filteredData?.map((game) => {
+                return <GameCard key={game.id} game={game} />;
+              })}
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
