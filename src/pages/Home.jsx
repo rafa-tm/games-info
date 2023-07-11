@@ -9,21 +9,18 @@ import GameCard from "../components/GameCard";
 
 import { MdClear, MdExitToApp, MdFavoriteBorder } from "react-icons/md";
 
-import {
-  FaSortAmountUp,
-  FaSort,
-  FaSortAmountUpAlt,
-  FaXbox,
-} from "react-icons/fa";
+import { FaSortAmountUp, FaSort, FaSortAmountUpAlt } from "react-icons/fa";
 
 import useAuth from "../hooks/useAuth";
-import useFetchData from "../hooks/useFetchData";
+import useFetch from "../hooks/useFetch";
+
 import useFilterData from "../hooks/useFilterData";
 import ShowError from "../components/ShowError";
 
 export default function Home() {
   const { logOut, isAuthenticated } = useAuth();
-  const { fetchData, listGames, loading, error } = useFetchData();
+  const { listGames, loading, error } = useFetch();
+
   const {
     filteredData,
     ratingFilter,
@@ -34,7 +31,7 @@ export default function Home() {
     setGenderFilter,
     favoritedFilter,
     setFavoritedFilter,
-  } = useFilterData(listGames);
+  } = useFilterData();
 
   const [listGenres, setListGenres] = useState([]);
 
@@ -51,6 +48,10 @@ export default function Home() {
     setListGenres(genres);
   }
 
+  useEffect(() => {
+    getListGenres(listGames);
+  }, [listGames]);
+
   function handleRatingFilter() {
     if (ratingFilter === "Nenhum filtro") {
       setRatingFilter("crescente");
@@ -60,11 +61,6 @@ export default function Home() {
       setRatingFilter("Nenhum filtro");
     }
   }
-
-  useEffect(() => {
-    fetchData();
-    getListGenres(listGames);
-  }, [isAuthenticated]);
 
   const clearFilters = () => {
     setNameFilter("");
@@ -201,7 +197,7 @@ export default function Home() {
           )}
 
           {!loading && !error && filteredData.length > 0 && (
-            <div className="grid w-[80%] grid-cols-1 gap-x-14 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid w-[95%] grid-cols-1 gap-x-14 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
               {filteredData?.map((game) => {
                 return <GameCard key={game.id} game={game} />;
               })}

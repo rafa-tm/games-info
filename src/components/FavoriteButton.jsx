@@ -2,18 +2,13 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { MdFavorite } from "react-icons/md";
 import useAuth from "../hooks/useAuth";
+import useFetch from "../hooks/useFetch";
+
 import { Link } from "react-router-dom";
-import {
-  arrayRemove,
-  arrayUnion,
-  doc,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "../services/firebase";
 
 export default function FavoriteButton({ gameId, isFavorite }) {
-  const { isAuthenticated, currentUser } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const { listGames, setListGames, saveFavorite } = useFetch();
 
   const [favorite, setFavorite] = useState(isFavorite);
   const [animateHeart, setAnimateHeart] = useState(false);
@@ -29,30 +24,24 @@ export default function FavoriteButton({ gameId, isFavorite }) {
     }, 1500);
   };
 
-  const updateFavorite = async (gameId) => {
+  const updateFavorite = () => {
     if (isAuthenticated) {
-      try {
-        const docRef = doc(db, "users", currentUser?.uid);
-        const userSnapshot = await getDoc(docRef);
-        const userData = userSnapshot.data();
+      saveFavorite(gameId);
 
-        const isFavorite = userData?.favGames.includes(gameId);
+      triggerAnimation();
 
-        if (isFavorite) {
-          await updateDoc(docRef, {
-            favGames: arrayRemove(gameId),
-          });
-          setFavorite(false);
+      const newList = listGames.map((game) => {
+        if (game.id === gameId) {
+          return {
+            ...game,
+            isFavorite: !favorite,
+          };
         } else {
-          await updateDoc(docRef, {
-            favGames: arrayUnion(gameId),
-          });
-          setFavorite(true);
-          triggerAnimation();
+          return game;
         }
-      } catch (error) {
-        console.log(error);
-      }
+      });
+      setListGames(newList);
+      console.log(newList);
     }
   };
 

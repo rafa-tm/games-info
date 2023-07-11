@@ -1,45 +1,35 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { MdStar } from "react-icons/md";
-import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../services/firebase";
-import useFetchData from "../hooks/useFetchData";
+
+import useAuth from "../hooks/useAuth";
+import useFetch from "../hooks/useFetch";
 
 export default function Rating({ gameId, initialRating }) {
-  const { isAuthenticated, currentUser } = useAuth();
-  const { updateRating } = useFetchData();
+  const { isAuthenticated } = useAuth();
+  const { listGames, setListGames, saveRating } = useFetch();
   const [rating, setRating] = useState(initialRating);
 
   useEffect(() => {
     setRating(initialRating);
   }, [initialRating, isAuthenticated]);
 
-  const handleRating = async (rating) => {
+  const updateRating = (rating) => {
     if (isAuthenticated) {
-      try {
-        const docRef = doc(db, "users", currentUser?.uid);
-        const userSnapshot = await getDoc(docRef);
-        const userData = userSnapshot.data();
-
-        const filteredEvaluatedGames = userData?.evaluatedGames.filter(
-          (game) => game.id !== gameId
-        );
-
-        const updatedEvaluatedGames = [
-          ...filteredEvaluatedGames,
-          { id: gameId, rating: rating },
-        ];
-
-        await updateDoc(docRef, {
-          evaluatedGames: updatedEvaluatedGames,
-        });
-        updateRating(gameId, rating);
-        setRating(rating);
-      } catch (error) {
-        console.log(error);
-      }
+      saveRating(rating, gameId);
+      const newList = listGames.map((game) => {
+        if (game.id === gameId) {
+          return {
+            ...game,
+            rating: rating,
+          };
+        } else {
+          return game;
+        }
+      });
+      setListGames(newList);
+      console.log(newList);
     }
   };
 
@@ -53,7 +43,7 @@ export default function Rating({ gameId, initialRating }) {
             className={`cursor-pointer transition-all hover:scale-125 ${
               value <= rating ? "text-yellow-400" : "text-gray-400"
             } `}
-            onClick={() => handleRating(value)}
+            onClick={() => updateRating(value)}
           />
         ))}
       </div>

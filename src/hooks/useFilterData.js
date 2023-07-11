@@ -1,13 +1,15 @@
 import { useState } from "react";
 import sortBy from "sort-by";
+import useFetch from "./useFetch";
 
-const useFilterData = (data) => {
+const useFilterData = () => {
     const [nameFilter, setNameFilter] = useState("");
     const [genderFilter, setGenderFilter] = useState("");
     const [favoritedFilter, setFavoritedFilter] = useState(false);
     const [ratingFilter, setRatingFilter] = useState("Nenhum filtro");
+    const { listGames } = useFetch();
 
-    let filteredData = data;
+    let filteredData = listGames;
 
     if (nameFilter) {
         filteredData = filteredData?.filter((game) => {
@@ -33,8 +35,6 @@ const useFilterData = (data) => {
         filteredData?.sort(sortBy("rating"));
     }
 
-    console.log("filteredData: ");
-    console.log(filteredData);
     return { filteredData, nameFilter, setNameFilter, genderFilter, setGenderFilter, favoritedFilter, setFavoritedFilter, ratingFilter, setRatingFilter };
 };
 

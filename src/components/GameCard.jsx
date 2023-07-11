@@ -14,7 +14,7 @@ export default function GameCard({ game }) {
     <div className="flex flex-col items-center overflow-hidden rounded-lg bg-zinc-700 shadow-2xl shadow-zinc-950 transition-all hover:scale-105">
       <img src={game.thumbnail} alt={game.title} className="w-full" />
 
-      <div className="mx-8 my-4 flex h-full flex-col justify-between">
+      <div className="mx-8 my-4 flex h-full flex-col justify-between gap-8">
         <div className=" flex flex-col items-start gap-4">
           <div className="flex w-full items-center justify-between">
             <Rating gameId={game.id} initialRating={game.rating} />
@@ -40,7 +40,7 @@ export default function GameCard({ game }) {
           onClick={() => window.open(game.game_url)}
         >
           <MdLaunch />
-          Visitar página do game
+          Ver mais
         </Button>
       </div>
     </div>
