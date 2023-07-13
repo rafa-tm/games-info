@@ -69,7 +69,7 @@ export default function FavoriteButton({ gameId, isFavorite }) {
   } else {
     return (
       <Link
-        to={"/auth/"}
+        to={"/auth"}
         className={`flex w-fit items-center justify-center gap-2 rounded-full bg-zinc-600 px-3 py-2  transition-all duration-500 ease-in-out hover:bg-zinc-300`}
       >
         <MdFavorite size="2em" className="text-slate-500" />

@@ -89,7 +89,7 @@ export default function Home() {
             Sair
           </Button>
         ) : (
-          <Button to={"/auth/"} type="primary" size="medium">
+          <Button to={"auth"} type="primary" size="medium">
             Entrar ou cadastrar
           </Button>
         )}
@@ -98,7 +98,7 @@ export default function Home() {
       <main className=" flex min-h-full w-full flex-col items-center justify-around">
         {/* Filtros */}
 
-        <div className="w-full px-32 py-24">
+        <div className="w-full px-10 py-24 md:px-32">
           <div className="flex w-full flex-col items-center justify-center gap-8 text-zinc-100 md:flex-wrap lg:flex-row">
             <h3 className="text-lg font-medium">Filtros: </h3>
             <input
@@ -111,7 +111,7 @@ export default function Home() {
               placeholder="Buscar pelo titulo"
             />
             <select
-              className="w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal "
+              className="h-10 w-full max-w-[20rem] rounded-lg bg-zinc-700 px-4 py-2 font-normal "
               type="text"
               name="filtroGenero"
               id="filtroGenero"
@@ -131,7 +131,7 @@ export default function Home() {
             </select>
 
             {isAuthenticated ? (
-              <>
+              <div className="flex flex-col items-center gap-8 md:flex-row md:justify-between">
                 <Button
                   type="primary"
                   size="medium"
@@ -164,8 +164,10 @@ export default function Home() {
                   )}
                   Meus favoritos
                 </Button>
-              </>
-            ) : null}
+              </div>
+            ) : (
+              ""
+            )}
 
             {(nameFilter !== "" ||
               genderFilter !== "" ||

@@ -33,6 +33,18 @@ const useFilterData = () => {
         filteredData?.sort(sortBy("-rating"));
     } else if (ratingFilter === "crescente") {
         filteredData?.sort(sortBy("rating"));
+
+        let ratingFilterAux = filteredData?.filter((game) => {
+            return game.rating === 0 || game.rating === null;
+        });
+
+
+        filteredData = filteredData?.filter((game) => {
+            return game.rating !== 0 && game.rating !== null;
+        });
+
+
+        filteredData = filteredData?.concat(ratingFilterAux);
     }
 
     return { filteredData, nameFilter, setNameFilter, genderFilter, setGenderFilter, favoritedFilter, setFavoritedFilter, ratingFilter, setRatingFilter };

@@ -17,6 +17,7 @@ export const AuthContext = createContext({});
 export function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authError, setAuthError] = useState("");
+  const [authSuccess, setAuthSuccess] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +39,12 @@ export function AuthProvider({ children }) {
     }, 5000);
   }, [authError]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAuthSuccess(false);
+    }, 5000);
+  }, [authSuccess]);
+
   const createAccount = async (email, password) => {
     try {
       if (!email || !password) {
@@ -52,6 +59,7 @@ export function AuthProvider({ children }) {
 
       if (await createUserWithEmailAndPassword(auth, email, password)) {
         console.log("Usuário criado com sucesso!");
+        setAuthSuccess(true);
         const docRef = doc(db, "users", auth.currentUser.uid);
         await setDoc(docRef, {
           favGames: [{ id: 0 }],
@@ -137,6 +145,7 @@ export function AuthProvider({ children }) {
         logOut,
         authError,
         setAuthError,
+        authSuccess,
       }}
     >
       {children}

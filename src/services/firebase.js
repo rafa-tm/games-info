@@ -1,12 +1,10 @@
 import { initializeApp } from "firebase/app";
 import {
     browserSessionPersistence,
-    //connectAuthEmulator, 
     getAuth,
     setPersistence
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
 
 // Firebase configuration
 const firebaseConfig = {
