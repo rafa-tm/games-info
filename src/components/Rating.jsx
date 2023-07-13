@@ -16,6 +16,9 @@ export default function Rating({ gameId, initialRating }) {
   }, [initialRating, isAuthenticated]);
 
   const updateRating = (rating) => {
+    if (initialRating === 1 && rating === 1) {
+      rating = 0;
+    }
     if (isAuthenticated) {
       saveRating(rating, gameId);
       const newList = listGames.map((game) => {
