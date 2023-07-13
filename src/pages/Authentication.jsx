@@ -65,7 +65,7 @@ export default function Authentication() {
             />
           </div>
           {page === "login" ? (
-            <div className="flex w-full flex-col gap-6 rounded-lg md:max-w-md">
+            <div className="flex w-full flex-col gap-10 rounded-lg md:max-w-md">
               <div>
                 <h3 className="text-2xl font-bold text-slate-50 ">
                   Faça login na sua conta!
@@ -137,7 +137,7 @@ export default function Authentication() {
               </form>
             </div>
           ) : (
-            <div className="flex w-full flex-col gap-6 rounded-lg md:max-w-md">
+            <div className="flex w-full flex-col gap-10 rounded-lg md:max-w-md">
               <div>
                 <h3 className="text-2xl font-bold text-slate-50 ">
                   Crie sua conta agora mesmo!

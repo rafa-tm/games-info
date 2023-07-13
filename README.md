@@ -36,7 +36,6 @@ Total: 12/12
 - ✅ Publicar seu projeto online para testarmos (na mesma url de antes)
 
 Total: 12/12
-Total
 
 ## Veja publicado
 
