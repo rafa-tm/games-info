@@ -122,19 +122,19 @@ export default function Authentication() {
                   </div>
                 )}
 
-                <div className="flex w-full items-center justify-between">
-                  <Button
-                    onClick={() => setPage("register")}
-                    type="text"
-                    size="medium"
-                  >
-                    Não possuo conta
-                  </Button>
+                <div className="flex w-full items-center justify-center">
                   <Button type="primary" buttonType="submit" size="medium">
                     Entrar
                   </Button>
                 </div>
               </form>
+              <Button
+                onClick={() => setPage("register")}
+                type="text"
+                size="medium"
+              >
+                Não possuo conta
+              </Button>
             </div>
           ) : (
             <div className="flex w-full flex-col gap-10 rounded-lg md:max-w-md">
@@ -224,19 +224,19 @@ export default function Authentication() {
                   </div>
                 )}
 
-                <div className="flex w-full justify-between">
-                  <Button
-                    onClick={() => setPage("login")}
-                    type="text"
-                    size="medium"
-                  >
-                    Voltar para login
-                  </Button>
+                <div className="flex w-full justify-center">
                   <Button type="primary" buttonType="submit" size="medium">
                     Criar conta
                   </Button>
                 </div>
               </form>
+              <Button
+                onClick={() => setPage("login")}
+                type="text"
+                size="medium"
+              >
+                Voltar para login
+              </Button>
             </div>
           )}
         </div>
